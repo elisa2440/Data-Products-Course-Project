@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zodiac Signs</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Zodiac Signs">
+  <meta name="author" content="Elisa Peirano">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Zodiac Signs</h1>
+    <h2>Find out some features of your Zodiac Sign</h2>
+    <p>Elisa Peirano<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The App I programmed is very simple to figure out. It only takes one input, which is a date, prefferably the birth date of yourself or somebody you know.</p>
+
+<p>The output displayed is the Zodiac Sign corresponding to the indicated date and some basic features of the sign:</p>
+
+<ol>
+<li>the element</li>
+<li>the colors associated</li>
+<li>the days of the week more suited </li>
+<li>the lucky numbers</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Some notes</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The Zodiac information I used for this App is from the website: <a href="http://www.astrology-zodiac-signs.com/">http://www.astrology-zodiac-signs.com/</a></p>
+
+<p>I build 2 data frames, one with the initial and ending dates for each sign (called zodiac) and another one with the features for each sign (called features).
+This is done outside the &quot;function&quot; on Server.R because it is not necessary to re-run it every time the submit button is press or if the App refreshes.</p>
+
+<p>For the outputs, since the calculations are performed when you press the Submit button, it&#39;s wrapped in an &quot;eventReactive&quot; fuction.
+So the outputs are called via the name of the reactive function (text) and by the specific variable needed for each field from the RenderText function.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Calculating the Zodiac Sign</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>With the inputted day, month and year I generate a date:</p>
+
+<pre><code class="r">date &lt;- as.Date(paste(as.character(input$year), &quot;-&quot;, as.character(input$month), 
+    &quot;-&quot;, as.character(input$day), sep = &quot;&quot;))
+</code></pre>
+
+<p>And then look for that date in one of the intervals created from the zodiac data frame:</p>
+
+<pre><code class="r">for(i in 1:nrow(zodiac)){
+      sequence &lt;- seq(as.Date(zodiac$init_date[i]), as.Date(zodiac$end_date[i]), &quot;day&quot;)
+      if(date %in% sequence){
+        break
+      }
+}
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For the example, let&#39;s use today&#39;s date: 2016-05-19.</p>
+
+<pre><code>##    init_date   end_date     sign
+## 1 2016-01-20 2016-02-18 AQUARIUS
+## 2 2016-02-19 2016-03-20   PISCES
+</code></pre>
+
+<p>Then get the Zodiac Sign</p>
+
+<pre><code class="r">for(i in 1:nrow(zodiac)){
+      sequence &lt;- seq(as.Date(zodiac$init_date[i]), as.Date(zodiac$end_date[i]), &quot;day&quot;)
+      if(date %in% sequence){
+        break
+      }
+}
+print(as.character(zodiac$sign[i]), quote = FALSE)
+</code></pre>
+
+<pre><code>## [1] TAURUS
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Some notes'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Calculating the Zodiac Sign'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Example'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
